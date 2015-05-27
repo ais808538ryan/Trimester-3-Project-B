@@ -1,0 +1,469 @@
+<html>
+<head>
+<title> Attack of the Magikarps </title>
+
+<script type="text/javascript" src="script/soundmanager2.js"></script>
+<script type="text/javascript" src="script/loadsoundchrome.js"></script>
+
+<center>
+<script src="processing-1.4.1.js"></script>
+<script type="text/processing" data-processing-target="mycanvas">
+
+
+
+/* @pjs globalKeyEvents = "true"; */ 
+
+
+//MAGIKARP INTEGERS
+
+PImage background;
+
+PImage magi[] = new PImage[5];
+PImage pika[] = new PImage[4];
+PImage heartimg[]=new PImage[3];
+
+int uptime;
+int downtime;
+int uploop;
+int downloop;
+
+
+int magiX[] = new int[5];
+
+int topmagiY;
+int sectopmagiY;
+int midmagiY;
+int secbotmagiY;
+int botmagiY;
+
+
+
+int topmagid;
+int sectopmagid;
+int midmagid;
+int secbotmagid; 
+int botmagid;
+
+int themesong;
+
+
+// Pikachu character
+PFont cartoon;
+
+int pikay;
+int pikax;
+int lock;
+int pointsCounter;
+
+int time;
+int hearttime;
+
+boolean death; 
+boolean death1;
+boolean death2;
+
+void setup()
+
+
+
+{
+
+size( 800, 500 );
+
+frameRate( 30 );
+
+n = 1;
+while(n <= 5)
+	{
+		magiX[n] = random(800,2000);
+		n = n + 1;
+	}
+
+
+//Golden Magikarp
+n=1;
+while(n <= 5)
+	{
+		magi[n] = loadImage("images/magi"+n+".png");
+		n = n + 1;
+	}
+
+//Pikachu
+	n = 1;
+	while (n <= 4)
+	{
+		pika[n] = loadImage("images/r"+n+".png");
+		n = n + 1;
+	}
+	
+		n = 1;
+	while (n <= 3)
+	{
+		heartimg[n] = loadImage("images/heart"+n+".png");
+		n = n + 1;
+	}
+	
+
+
+uptime = 0;
+downtime= 0;
+uploop = 1;
+downloop =1;
+time = 0;
+hearttime=0;
+
+
+pikax = 100; 
+pikay = 200;
+
+
+background = loadImage("images/PokeWall.jpg");
+cartoon = loadFont("images/ComicsCarToon");
+
+
+topmagiY = 0;
+sectopmagiY=96.3;
+midmagiY = 192.6;
+secbotmagiY = 288.9;
+botmagiY = 385.2;
+
+themesong = 0;
+
+pointsCounter = 0;
+
+
+
+
+
+heart =2;
+lock = 0;
+death =false;
+death1 = false;
+death2 = false; 
+
+}
+
+
+
+void draw()
+
+
+
+{
+
+image(background,0,0,800,500);
+
+
+//pain sound
+	if(death1 == true &&lock == 0 )
+	{
+		lock = 1;
+		soundManager.play('s1');
+	}
+
+	if(death2 == true &&lock == 1 )
+	{
+		lock = 2;
+		soundManager.play('s1');
+	}
+
+
+
+//Pikachu
+if(pikay < 0)
+	{
+		pikay = 0;
+	}
+if (pikay > 400)
+	{
+		pikay = 400;
+	}
+	
+
+
+// MAGIKARPS IMAGES
+
+image(magi[1],magiX[1],topmagiY,100,96.3)
+image(magi[2],magiX[2],sectopmagiY,100,96.3)
+image(magi[3],magiX[3],midmagiY,100,96.3)
+image(magi[4],magiX[4],secbotmagiY,100,96.3)
+image(magi[5],magiX[5],botmagiY,100,96.3)
+
+
+// POINTS SYSTEM
+fill(0,0,0);
+textFont(cartoon,50);
+text(pointsCounter,30,470);
+
+if (magiX[1] < 100 && magiX[1] > 80)
+	{
+		pointsCounter = pointsCounter + 1;
+	}
+	
+if (magiX[2] < 100 && magiX[2] > 80)
+	{
+		pointsCounter = pointsCounter + 1;
+	}
+	
+if (magiX[3] < 100 && magiX[3] > 80)
+	{
+		pointsCounter = pointsCounter + 1;
+	}
+	
+if (magiX[4] < 100 && magiX[4] > 80)
+	{
+		pointsCounter = pointsCounter + 1;
+	}
+
+if (magiX[5] < 100 && magiX[5] > 80)
+	{
+		pointsCounter = pointsCounter + 1;
+	}
+
+
+
+// random generate
+
+	if(magiX[1] < -100 )
+{
+	magiX[1] = random(800,2000);
+}
+
+	if(magiX[2] < -100 )
+{
+	magiX[2] = random(800,2000);
+}	
+
+	if(magiX[3] < -100 )
+{
+	magiX[3] = random(800,2000);
+}
+
+	if(magiX[4] < -100 )
+	{
+	magiX[4] = random(800,2000);
+	}	
+
+	if(magiX[5] < -100 )
+	{
+	magiX[5] = random(800,2000);
+	}
+
+
+// DIFFICULTY LEVELS
+
+magiX[1] = magiX[1] - 25;
+magiX[2] = magiX[2] -25;
+magiX[3] = magiX[3] - 25;
+magiX[4] = magiX[4] - 25;
+magiX[5] = magiX[5] - 25;
+
+
+//COLLISION DETECTION
+
+    topmagid = (int)sqrt(sq(magiX[1]-pikax)+sq(topmagiY-pikay));
+    sectopmagid = (int)sqrt(sq(magiX[2]-pikax)+sq(sectopmagiY-pikay));
+    midmagid = (int)sqrt(sq(magiX[3]-pikax)+sq(midmagiY-pikay));
+    secbotmagid = (int)sqrt(sq(magiX[4]-pikax)+sq(secbotmagiY-pikay));
+    botmagid = (int)sqrt(sq(magiX[5]-pikax)+sq(botmagiY-pikay));
+    
+if	(topmagid < 45 || sectopmagid < 45 || midmagid <45 || secbotmagid < 45 || botmagid < 45)
+   	{
+   	
+   		
+		if (heart == 2)
+		{
+			death1 = true;
+			death2 = false;
+			
+		}
+		if (heart == 1)
+		{
+			death1 = false;
+			death2 = true;
+			
+		}
+    	death = true ;
+    }
+    
+ 
+ //life system
+	if (death1 == true)
+	{
+		heart = 1;
+	}
+	
+	 if (death2 == true)
+	{
+	 	heart = 0;
+	 	link("GameOver.html");
+		sessionStorage.transferx1 = pointsCounter;
+	}
+	
+
+	n = 1;
+	t = 0; 
+	while(n <= 3)
+	{
+		if((hearttime >= t) && (hearttime <= t + 10))
+		{
+			
+			if( heart == 2 )
+			{	
+				image(heartimg[n],50,30,90,50);
+				image(heartimg[n],90,30,90,50);
+			}
+
+			if( heart == 1 )
+			{
+				image(heartimg[n],50,30,90,50);
+			}	
+		}
+	
+	
+		n	= n + 1;
+		t = t + 10;
+		
+	}
+	hearttime = hearttime + 5;
+	
+	
+	if(hearttime >= 30)
+	{
+		hearttime = 0;
+	}
+	
+   
+// ANIMATION
+	
+if (uploop ==1 && downloop ==1)
+
+{
+
+	image(pika[1],pikax,pikay,80,80);
+
+}	
+	
+	
+
+if (uploop == 0)
+{ 	
+	
+
+
+
+	if(uptime >= 0 && uptime < 5)
+	{
+	image(pika[2],pikax,pikay,80,80);
+	}
+	
+	if(uptime >= 5 && uptime < 10)
+	{
+	image(pika[3],pikax,pikay,80,80);
+	}
+	
+	if(uptime >= 10 && uptime < 15)
+	{
+	image(pika[4],pikax,pikay,80,80);
+	}
+	
+	uptime = uptime + 2;	
+	if(uptime ==14)
+	{	
+		uploop = 1;
+		
+	}
+}
+	
+	
+if (downloop == 0)
+{ 	
+	
+
+	if(downtime >= 0 && downtime < 5)
+	{
+	image(pika[4],pikax,pikay,80,80);
+	}
+	
+	if(downtime >= 5 && downtime < 10)
+	{
+	image(pika[3],pikax,pikay,80,80);
+	}
+	
+	if(downtime >= 10 && downtime < 15)
+	{
+	image(pika[2],pikax,pikay,80,80);
+	}
+	
+	 
+	downtime = downtime + 2;	
+	if(downtime ==14)
+	{	
+		downloop = 1;
+		
+	}	
+}
+ 
+if(death == true )
+	{
+		pikax = 100; 
+		pikay = 200;
+		death = false;
+	}
+
+
+	if(themesong ==0)
+		{
+			soundManager.play('s0');
+			themesong =1;
+		}
+
+	if(mousePressed == true && mouseButton == RIGHT) 
+	{
+		point(mouseX, mouseY);
+   	 	fill(0,0,0);
+   	 	textSize(12);
+		text(mouseX + " " +"," + " "+ mouseY, mouseX-26,mouseY-10); 
+	}
+}
+
+// GAME KEYS
+void keyPressed()
+{
+if(death == false)
+{
+	if(keyCode == UP )
+		{
+			pikay = pikay - 100;
+			uploop = 0;
+			uptime=0;
+			downtime=0;
+			time=0;
+		}
+
+	if(keyCode == DOWN)
+		{
+			pikay = pikay + 100;
+			themesong = 1;
+			downloop = 0;
+			downtime=0;
+			uptime=0;
+			time=0;
+		
+		}
+
+	
+}
+
+
+}
+
+</script>
+<canvas id="mycanvas"></canvas>
+</head>
+
+<body>
+
+</body>
+</html>
+

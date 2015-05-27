@@ -1,0 +1,266 @@
+<title> Character selection </title>
+
+<!-- copy and paste the next 2 lines to setup the sound files, you must modify the loadsoundchrome.js file with your sounds -->
+<script type="text/javascript" src="script/soundmanager2.js"></script>
+<script type="text/javascript" src="script/loadsoundchrome.js"></script>
+<!-- Stop copying here -->
+
+<center>
+    <script type="text/javascript" src="script/processing-1.4.1.js"></script>
+    <script type="text/processing" data-processing-target="mycanvas">
+
+/* @pjs globalKeyEvents = "true"; */
+
+PImage yellow[] = new PImage[4];
+PImage blue[] = new PImage[5];
+PImage red[] = new PImage[4];
+PImage background;
+PImage heart;
+PImage speed;
+int soundlock;
+int lock;
+int redAction;
+PFont cartoon;
+void setup()
+{  
+cartoon =loadFont("ComicsCarToon");
+	n=1;
+	while(n <= 4)
+	{
+		yellow[n] = loadImage("images/y"+n+".png");
+		n = n + 1;
+	
+	}
+	n=1;
+	while(n <= 4)
+	{
+		blue[n] = loadImage("images/b"+n+".png");
+		n = n + 1;
+	
+	}
+	n=1;
+	while(n <= 4)
+	{
+		red[n] = loadImage("images/r"+n+".png");
+		n = n + 1;
+	
+	}
+	background = loadImage("images/background.png")
+	heart = loadImage("images/heart1.png")
+	speed = loadImage("images/speed.png")
+
+
+	
+
+	bluetime = 0;
+	yellowtime = 0;
+	redtime = 0;
+	lock = 0;
+	
+	
+	
+}  
+
+
+void draw()
+{
+
+
+
+//background music
+	if(lock ==0)
+	{
+		lock =1;
+		soundManager.play('s2');
+	}
+
+
+
+
+	
+	size(800,500);  
+
+	frameRate( 30 );		
+
+	image(background,0,0,800,800);
+
+	fill(255,255,255);
+	textFont(cartoon,70);
+	text("Select Your Hero",  35,95);
+
+	textFont(cartoon,25);
+	text("LIFE: ",520,425);
+	text("LIFE: ",520,300);
+	text("LIFE: ",520,175);
+	
+	text("AGILITY: ",520,470);
+	text("AGILITY: ",520,345);
+	text("AGILITY: ",520,220);
+	
+
+//red hero link
+	if (75 <mouseX && mouseX<690  && 260<mouseY && mouseY<370)
+	{
+		noStroke();
+		fill(255,255,255,120);
+		rect(-10,260,820,110,10);
+	}
+
+	if (mousePressed == true && mouseButton == LEFT)
+	{
+		if (10 <mouseX && mouseX<590   && 220<mouseY && mouseY<400)
+		{
+			link("PikaGamered.html");
+		}
+	}
+
+//ryellow hero link
+	if (75 <mouseX && mouseX<690 && 145<mouseY && mouseY<255)
+	{
+		noStroke();
+		fill(255,255,255,120);
+		rect(-10,145,820,110,10);
+
+	}
+
+	if (mousePressed == true && mouseButton == LEFT)
+	{
+		if (75 <mouseX && mouseX<690 && 145<mouseY && mouseY<255)
+		{
+			link("PikaGameyellow.html");
+		}
+	}
+
+//blue hero link
+	if (75 <mouseX && mouseX<690 && 375<mouseY && mouseY<490)
+	{
+		noStroke();
+		fill(255,255,255,120);
+		rect(-10,385,820,110,10);
+	}
+
+	if (mousePressed == true && mouseButton == LEFT)
+	{
+		if (75 <mouseX && mouseX<690 && 375<mouseY && mouseY<490)
+		{
+			link("PikaGameblue.html");
+		}
+	}
+
+//blue hero spec  
+	
+	n = 1;
+	t = 0; 
+	while(n <= 4)
+	{
+		if((bluetime >= t) && (bluetime <= t + 10))
+		{
+			image(blue[n],40,310,230,230);
+		}
+	
+	
+		n	= n + 1;
+		t = t + 10;
+		
+	}
+	bluetime = bluetime + 2;
+	
+	
+	if(bluetime >= 40)
+	{
+		bluetime = 0;
+	}
+	
+	image(heart,600,385,90,60);
+	
+
+	image(speed,615,440,60,40);
+	image(speed,645,440,60,40);
+	image(speed,675,440,60,40);
+	
+	
+//yellow hero spec    
+	n = 1;
+	t = 0; 
+	while(n <= 4)
+	{
+		if((yellowtime >= t) && (yellowtime <= t + 10))
+		{
+			image(yellow[n],100,150,100,100);
+		}
+	
+	
+		n	= n + 1;
+		t = t + 10;
+		
+	}
+	yellowtime = yellowtime + 2;
+	
+	
+	if(yellowtime >= 40)
+	{
+		yellowtime = 0;
+	}
+	
+	
+	image(heart,600,260,90,60);
+	image(heart,630,260,90,60);
+	
+	image(speed,615,315,60,40);
+	image(speed,645,315,60,40);
+	
+
+
+//red hero spec
+	n = 1;
+	t = 0; 
+	while(n <= 4)
+	{
+		if((redtime >= t) && (redtime <= t + 10))
+		{
+			image(red[n],85,240,170,170);
+		}
+	
+	
+		n	= n + 1;
+		t = t + 10;
+		
+	}
+	redtime = redtime + 2;
+	
+	
+	if(redtime >= 40)
+	{
+		redtime = 0;
+	}
+	
+	image(heart,600,145,90,60);
+	image(heart,630,145,90,60);
+	image(heart,660,145,90,60);
+
+	
+	image(speed,615,190,60,40);
+	
+
+
+	if(mousePressed == true && mouseButton == RIGHT) 
+	{
+  		point(mouseX, mouseY);
+  		fill(0, 0, 0);
+    	textSize(12);
+    	text(mouseX + " " +"," + " "+ mouseY, mouseX-26,mouseY-10); 
+	}
+
+
+	
+}
+
+
+</script>
+<canvas id="mycanvas"></canvas>
+</head>
+
+<body>
+
+</body>
+</html>

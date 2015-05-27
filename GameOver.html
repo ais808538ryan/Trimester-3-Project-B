@@ -1,0 +1,110 @@
+<html>
+<head>
+<title> Game Over </title>
+
+<script type="text/javascript" src="script/soundmanager2.js"></script>
+<script type="text/javascript" src="script/loadsoundchrome.js"></script>
+
+<script src="processing-1.4.1.js"></script>
+<script type="text/processing" data-processing-target="mycanvas">
+
+
+
+/* @pjs globalKeyEvents = "true"; */ 
+
+
+PImage pikaCry;
+
+PFont cartoon;
+
+void setup()
+{
+
+frameRate( 30 );
+
+size( 800 , 500 );  
+background(0,0,0);
+
+pikaCry = loadImage("images/pikachu-slap-gif-picture-deviantart--grimmy46s-journal.png")
+
+cartoon =loadFont("ComicsCarToon");
+
+totalPoints = sessionStorage.transferx1;
+
+
+
+}
+
+
+void draw()
+{
+
+
+
+background(255,255,255);
+
+
+image(pikaCry,0,0);
+
+stroke(100,255,100);
+strokeWeight(2);
+
+fill(0,0,0);
+textFont(cartoon,70);
+text("GAME OVER",20,70);
+textFont(cartoon,40);
+text("Your Score Is",20,200);
+text("Press Spacebar to Retry",20,450);
+textFont(cartoon,150);
+text(totalPoints,365,300);
+
+if (totalPoints < 15)
+{
+	fill(255,0,0);
+	textFont(cartoon,90);
+	text("You suck!", 350,150);
+}
+
+
+if (totalPoints > 15 && totalPoints < 30)
+{
+	fill(255,0,0);
+	textFont(cartoon,90);
+	text("You're Ok.", 350,150);
+}
+
+
+if (totalPoints > 30 && totalPoints < 45)
+{
+	fill(255,0,0);
+	textFont(cartoon,90);
+	text("Not bad :/", 350,150);
+}
+
+if (totalPoints > 45 )
+{
+	fill(255,0,0);
+	textFont(cartoon,85);
+	text("You're Boss xD", 200,150);
+}
+
+
+}
+
+void keyPressed()
+{
+
+if(key == ' ')
+	{
+		link("Chracter Selection.html");
+	}
+}
+
+</script>
+<canvas id="mycanvas"></canvas>
+</head>
+
+<body>
+
+</body>
+</html>
